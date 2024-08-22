@@ -1,18 +1,36 @@
 import styles from "./page.module.css";
 import UsersList from '../components/UsersList';
+import { GetUsers, CreateUser, ChangeUser } from "@/services/mysql_db";
 
 export default async function Home() {
-    function getUsers() {
-        return fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response => response.json())
+
+    const getUsers = async () => {
+        "use server"
+        return await GetUsers();
     }
-    const usersList = await getUsers();
+
+    let usersList = await getUsers();
+
+     const createUser = async user => {
+        'use server';
+        await CreateUser(user);
+    }
+
+    const changeUser = async user => {
+        'use server';
+        await ChangeUser(user);
+    }
     console.log(usersList);
 
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-          <UsersList list={usersList} />
+          <UsersList
+              list = { await getUsers() }
+              getUsers={ getUsers }
+              createUser={ createUser }
+              changeUser={ changeUser }
+          />
       </div>
     </main>
   );
