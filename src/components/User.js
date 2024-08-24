@@ -16,7 +16,7 @@ export default function User({ user, handleCreate, editUser, deleteUser, isNew }
             <td> { isNew || isEditing ? <input name="email" value={userData?.email ?? ''} onInput={ handleChanges } /> : userData.email } </td>
 
                 { isNew
-                    ? <td><span onClick={ async () => console.log(userData) || handleCreate(userData) }>save </span></td>
+                    ? <td><span onClick={ async () => handleCreate(userData) }>save </span></td>
                     : <td>
                         {
                             isEditing

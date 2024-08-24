@@ -48,11 +48,22 @@ export async function ChangeUser(user) {
     }
 }
 
-
 export async function DeleteUser(id) {
     try {
         const [results] = await connection.query(
             'UPDATE `users` SET `deleted_at` = ? WHERE `id` = ?', [new Date(), id]
+        );
+        console.log(results); // results contains rows returned by server
+        return results
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function DeleteAllUsers() {
+    try {
+        const [results] = await connection.query(
+            'UPDATE `users` SET `deleted_at` = ? ', [new Date()]
         );
         console.log(results); // results contains rows returned by server
         return results
