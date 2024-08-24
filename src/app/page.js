@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import UsersList from '../components/UsersList';
-import { GetUsers, CreateUser, ChangeUser } from "@/services/mysql_db";
+import { GetUsers, CreateUser, ChangeUser, DeleteUser } from "@/services/mysql_db";
 
 export default async function Home() {
 
@@ -22,6 +22,10 @@ export default async function Home() {
     }
     console.log(usersList);
 
+    const deleteUser = async id => {
+        'use server';
+        await DeleteUser(id);
+    }
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -30,6 +34,7 @@ export default async function Home() {
               getUsers={ getUsers }
               createUser={ createUser }
               changeUser={ changeUser }
+              deleteUser={ deleteUser }
           />
       </div>
     </main>

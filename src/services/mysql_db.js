@@ -13,7 +13,7 @@ const connection = await mysql.createConnection({
 export async function GetUsers() {
     try {
         const [results] = await connection.query(
-            'SELECT * FROM `users`'
+            'SELECT * FROM `users` WHERE `deleted_at` IS NULL'
         );
         console.log(results); // results contains rows returned by server
         return results
@@ -40,6 +40,19 @@ export async function ChangeUser(user) {
     try {
         const [results] = await connection.query(
             'UPDATE `users` SET `name` = ?,`email` = ? WHERE `id` = ?', [validated.name, validated.email, validated.id]
+        );
+        console.log(results); // results contains rows returned by server
+        return results
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+export async function DeleteUser(id) {
+    try {
+        const [results] = await connection.query(
+            'UPDATE `users` SET `deleted_at` = ? WHERE `id` = ?', [new Date(), id]
         );
         console.log(results); // results contains rows returned by server
         return results

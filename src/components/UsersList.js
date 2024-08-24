@@ -2,14 +2,15 @@
 import User from "../components/User";
 import { useState } from 'react'
 
-export default function UsersList({ list, getUsers, createUser, changeUser }) {
+export default function UsersList({ list, getUsers, createUser, changeUser, deleteUser }) {
     const [ userList, updateList ] = useState(list);
     const handleEdit = async user => {
         await changeUser(user);
         updateList(await getUsers());
     }
-    const handleDelete = id => {
-        updateList(userList.filter(el => el.id !== id))
+    const handleDelete = async id => {
+        await deleteUser(id);
+        updateList(await getUsers());
     }
 
     const handleCreate = async user => {
@@ -21,12 +22,12 @@ export default function UsersList({ list, getUsers, createUser, changeUser }) {
         <div>
             <table>
                 <thead>
-                <tr>
-                    <td>id</td>
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Actions</td>
-                </tr>
+                    <tr>
+                        <td>id</td>
+                        <td>Name</td>
+                        <td>Email</td>
+                        <td>Actions</td>
+                    </tr>
                 </thead>
                 <tbody>
                 {userList && userList.map(el =>  <User
